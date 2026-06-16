@@ -31,22 +31,16 @@ class RAG:
 
     def ask(self, question):
 
-
         # Retrieve documents
-
         docs = self.retriever.invoke(
             question
         )
-
-
         context = "\n\n".join(
             [
                 doc.page_content
                 for doc in docs
             ]
         )
-
-
         history = "\n".join(
             [
                 msg.content
@@ -58,29 +52,26 @@ class RAG:
         # Simple prompt
 
         prompt = f"""
-You are an enterprise document assistant.
+            You are an enterprise document assistant.
 
-Answer only using the context.
+            Answer only using the context.
 
-Context:
-{context}
-
-
-Conversation history:
-{history}
+            Context:
+            {context}
 
 
-Question:
-{question}
+            Conversation history:
+            {history}
 
-"""
 
+            Question:
+            {question}
+
+            """
 
         response = self.llm.invoke(
             prompt
         )
-
-
         # save memory
 
         self.history.append(
@@ -88,15 +79,12 @@ Question:
                 content=question
             )
         )
-
-
+        
         self.history.append(
             AIMessage(
                 content=response.content
             )
         )
-
-
 
         sources = []
 
